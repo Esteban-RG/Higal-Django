@@ -33,6 +33,9 @@ class Platillo(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
     precio = models.FloatField()
-    imagen = models.ImageField()
+    imagen = models.ImageField(upload_to='platillos/', blank=True, null=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     visibilidad = models.BooleanField()
+
+    def __str__(self):
+        return self.nombre

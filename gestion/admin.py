@@ -17,10 +17,20 @@ class PromocionAdmin(admin.ModelAdmin):
 
     mostrar_imagen.short_description = 'Imagen'
 
+class PlatilloAdmin(admin.ModelAdmin):
+    list_display = ['mostrar_imagen']
+
+    def mostrar_imagen(self, obj):
+        if obj.imagen:
+            return format_html('<p>{}</p><img src="{}" width="100" height="100" />'.format(obj.nombre,obj.imagen.url))
+        return 'No hay imagen'
+
+    mostrar_imagen.short_description = 'Imagen'
+
 admin.site.register(Promocion, PromocionAdmin)
 admin.site.register(Categoria, CategoriaAdmin)
 admin.site.register(Mesa)
 admin.site.register(Cliente)
 admin.site.register(Reservacion)
-admin.site.register(Platillo)
+admin.site.register(Platillo, PlatilloAdmin)
 

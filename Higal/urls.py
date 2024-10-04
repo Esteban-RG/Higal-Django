@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
+    path('obtener-platillos/', views.obtener_platillos, name='obtener_platillos'),
 ]
 
 if settings.DEBUG:
