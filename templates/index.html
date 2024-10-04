@@ -11,28 +11,29 @@
         <div class='pills col-12 mb-5'>
             <ul class='nav nav-pills nav-justified mb-3' id='pills-tab' role='tablist'>
                 {% for categoria in categorias %}
-                    <li class='nav-item'>
-                        <a class='nav-link {% if forloop.first %}active{% endif %}' id='pills-home-tab' data-toggle='pill' href='#{{ categoria.nombre }}' role='tab'
-                            aria-controls='pills-home' aria-selected='true'>
-                            {{ categoria.nombre }}
-                        </a>
-                    </li>
+                <li class='nav-item'>
+                    <a class='nav-link {% if forloop.first %}active{% endif %}' id='pills-home-tab' data-toggle='pill'
+                        href='#{{ categoria.nombre }}' role='tab' aria-controls='pills-home' aria-selected='true'>
+                        {{ categoria.nombre }}
+                    </a>
+                </li>
                 {% endfor %}
             </ul>
         </div>
 
         <div class="dropdown-center text-muted mb-3">
-            <a class="categorias-button btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="categorias-button btn btn-primary dropdown-toggle" href="#" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="visually-hidden">Toggle Dropdown</span>
             </a>
 
             <ul class="dropdown-menu nav-pills text-center" id='pills-tab' role='tablist'>
                 {% for categoria in categorias %}
-                    <li>
-                        <a class='dropdown-item' data-toggle='pill' href='#{{ categoria.nombre }}'>
-                            {{ categoria.nombre }}
-                        </a>
-                    </li>
+                <li>
+                    <a class='dropdown-item' data-toggle='pill' href='#{{ categoria.nombre }}'>
+                        {{ categoria.nombre }}
+                    </a>
+                </li>
                 {% endfor %}
             </ul>
         </div>
@@ -40,29 +41,122 @@
 
     <div class="tab-content" id="pills-tabContent">
         {% for categoria in categorias %}
-            <div class='tab-pane {% if forloop.first %}show active{% endif %}' id='{{ categoria.nombre }}' role='tabpanel'>
-                <div class='row'>
-                    {% if categoria.platillo_set.exists %}
-                        {% for platillo in categoria.platillo_set.all %}
-                            <div class='col-sm-6 col-md-6 col-lg-3'>
-                                <div class='card bg-transparent border my-3 my-md-0'>
-                                    <img src='{{ platillo.imagen.url }}' alt='{{ platillo.nombre }}' class='rounded-0 card-img-top' width='500'>
-                                    <div class='card-body'>
-                                        <h1 class='text-center mb-4'>
-                                            <a href='#{{ platillo.categoria.nombre }}' class='badge badge-primary'>${{ platillo.precio }}</a>
-                                        </h1>
-                                        <h4 class='pt20 pb20'>{{ platillo.nombre }}</h4>
-                                        <p>{{ platillo.descripcion }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
+        <div class='tab-pane {% if forloop.first %}show active{% endif %}' id='{{ categoria.nombre }}' role='tabpanel'>
+            <div class='row'>
+                {% if categoria.platillo_set.exists %}
+                {% for platillo in categoria.platillo_set.all %}
+                <div class='col-sm-6 col-md-6 col-lg-3'>
+                    <div class='card bg-transparent border my-3 my-md-0'>
+                        <img src='{{ platillo.imagen.url }}' alt='{{ platillo.nombre }}' class='rounded-0 card-img-top'
+                            width='500'>
+                        <div class='card-body'>
+                            <h1 class='text-center mb-4'>
+                                <a href='#{{ platillo.categoria.nombre }}' class='badge badge-primary'>$
+                                    {{ platillo.precio }}</a>
+                            </h1>
+                            <h4 class='pt20 pb20'>{{ platillo.nombre }}</h4>
+                            <p>{{ platillo.descripcion }}</p>
+                        </div>
+                    </div>
                 </div>
+                {% endfor %}
+                {% endif %}
             </div>
+        </div>
         {% endfor %}
     </div>
 </div>
 
+
+{% endblock %}
+
+
+{% block gallary %}
+
+<!--  gallary Section  -->
+
+
+<div class="container-fluid gallary row" id="gallary">
+    {% for imagen in galeria %}
+    <div class='col-4 col-lg-2 gallary-item wow fadeIn'>
+        <a data-bs-toggle='modal' data-bs-target='#{{ imagen.id }}'>
+            <img src='{{ imagen.imagen.url }}' class='gallary-img'>
+        </a>
+    </div>
+
+    <div class='modal fade' id='{{ imagen.id }}' tabindex='-1' aria-labelledby='ModalLabel' aria-hidden='true'>
+        <div class='modal-dialog modal-dialog-centered'>
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    <h1 class='modal-title text-dark fs-5' id='ModalLabel'>{{ imagen.nombre }}</h1>
+                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                </div>
+                <div class='modal-body'>
+                    <img src='{{ imagen.imagen.url }}' class='modal-img'>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title text-dark fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>>
+
+{% endblock %}
+
+
+{% block table %}
+
+<div class="container-fluid has-height-xxl has-bg-overlay text-center  middle-items wow fadeIn" id="book-table">
+
+    <h2 class="section-title mb-5">Reservaciones</h2>
+    <form action="controller/reservation" method="POST">
+        <div class="row ">
+            <div class="col-sm-6 col-md-3 my-2">
+                <input type="text" name="name" class="form-control form-control-lg custom-form-control"
+                    placeholder="Nombre" maxlength="50" autocomplete="given-name" required>
+            </div>
+            <div class="col-sm-6 col-md-3 my-2">
+                <input type="email" name="email" class="form-control form-control-lg custom-form-control"
+                    placeholder="Email" maxlength="30" autocomplete="family-name" required>
+            </div>
+            <div class="col-sm-6 col-md-3 my-2">
+                <input type="number" name="cantPersonas" class="form-control form-control-lg custom-form-control"
+                    placeholder="Cantidad de invitados" max="20" min="1" required>
+            </div>
+            <div class="col-sm-6 col-md-3 my-2">
+                <input type="datetime-local" name="fecha" class="form-control form-control-lg custom-form-control"
+                    placeholder="Fecha y Hora" required>
+            </div>
+        </div>
+
+        <input type="hidden" id="action" name="action" value="insert">
+        <input type="hidden" id="source" name="source" value="client">
+
+        <ul class="list-group">
+            <li class="list-group-item ">HORARIO DE SERVICIO</li>
+            <li class="list-group-item ">Viernes: 6:00 p.m. a 10:30 p.m.</li>
+            <li class="list-group-item ">Sábado y Domingo: 8:00 a.m. a 10:30 p.m.</li>
+        </ul>
+
+        <button type="submit" class="btn btn-lg btn-primary" id="rounded-btn">Agendar cita</button>
+
+    </form>
+
+</div>
 
 {% endblock %}

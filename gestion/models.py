@@ -2,6 +2,11 @@ from django.db import models
 
 # Create your models here.
 
+class Galeria(models.Model):
+    imagen = models.ImageField(upload_to='galeria/', blank=True, null=True)
+
+    def __str__(self):
+        return self.imagen.url
 
 class Promocion(models.Model):
     ruta = models.ImageField(upload_to='promotions/', blank=True, null=True)

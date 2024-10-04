@@ -1,17 +1,19 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
-from .models import Promocion, Categoria, Platillo
+from .models import Promocion, Categoria, Platillo, Galeria
 
 # Create your views here.
 
 def index(request):
 
     promotions = Promocion.objects.all()
-    categorias = Categoria.objects.prefetch_related('platillo_set').all() 
+    categorias = Categoria.objects.prefetch_related('platillo_set').all()
+    galeria = Galeria.objects.all()
     context = {
         'promotions' : promotions,
         'categorias' : categorias,
+        'galeria' : galeria,
     }
 
     return render(request, "index.html",context)

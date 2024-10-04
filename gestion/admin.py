@@ -16,18 +16,33 @@ class PromocionAdmin(admin.ModelAdmin):
         return 'No hay imagen'
 
     mostrar_imagen.short_description = 'Imagen'
-
-class PlatilloAdmin(admin.ModelAdmin):
+    
+class GaleriaAdmin(admin.ModelAdmin):
     list_display = ['mostrar_imagen']
 
     def mostrar_imagen(self, obj):
         if obj.imagen:
-            return format_html('<p>{}</p><img src="{}" width="100" height="100" />'.format(obj.nombre,obj.imagen.url))
+            return format_html('<img src="{}" width="100" height="100" />'.format(obj.imagen.url))
+        return 'No hay imagen'
+
+    mostrar_imagen.short_description = 'Imagen'
+
+class PlatilloAdmin(admin.ModelAdmin):
+    list_display = ['nombre','descripcion','mostrar_imagen','visibilidad']
+    search_fields = ['nombre']
+
+
+    def mostrar_imagen(self, obj):
+        if obj.imagen:
+            return format_html('''
+                               <img src="{}" width="100" height="100" />
+                               '''.format(obj.imagen.url))
         return 'No hay imagen'
 
     mostrar_imagen.short_description = 'Imagen'
 
 admin.site.register(Promocion, PromocionAdmin)
+admin.site.register(Galeria, GaleriaAdmin)
 admin.site.register(Categoria, CategoriaAdmin)
 admin.site.register(Mesa)
 admin.site.register(Cliente)
