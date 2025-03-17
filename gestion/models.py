@@ -1,15 +1,33 @@
 from django.db import models
+import uuid
+import os
 
 # Create your models here.
 
+def upload_to_galeria(instance, filename):
+    ext = filename.split('.')[-1]
+    unique_name = f"{uuid.uuid4().hex}.{ext}"  
+    return os.path.join('galeria/', unique_name)
+
+def upload_to_platillos(instance, filename):
+    ext = filename.split('.')[-1]
+    unique_name = f"{uuid.uuid4().hex}.{ext}"  
+    return os.path.join('platillos/', unique_name)
+
+def upload_to_promotions(instance, filename):
+    ext = filename.split('.')[-1]
+    unique_name = f"{uuid.uuid4().hex}.{ext}"  # hex elimina los guiones
+    return os.path.join('promotions/', unique_name)
+
+
 class Galeria(models.Model):
-    imagen = models.ImageField(upload_to='galeria/', blank=True, null=True)
+    imagen = models.ImageField(upload_to=upload_to_galeria, blank=True, null=True)
 
     def __str__(self):
         return self.imagen.url
 
 class Promocion(models.Model):
-    ruta = models.ImageField(upload_to='promotions/', blank=True, null=True)
+    ruta = models.ImageField(upload_to=upload_to_promotions, blank=True, null=True)
 
     def __str__(self):
         return self.ruta.url
@@ -38,7 +56,7 @@ class Platillo(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
     precio = models.FloatField()
-    imagen = models.ImageField(upload_to='platillos/', blank=True, null=True)
+    imagen = models.ImageField(upload_to=upload_to_platillos, blank=True, null=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     visibilidad = models.BooleanField()
 
