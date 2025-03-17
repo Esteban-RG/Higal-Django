@@ -13,7 +13,7 @@
                 {% for categoria in categorias %}
                 <li class='nav-item'>
                     <a class='nav-link {% if forloop.first %}active{% endif %}' id='pills-home-tab' data-toggle='pill'
-                        href='#{{ categoria.nombre }}' role='tab' aria-controls='pills-home' aria-selected='true'>
+                        href='#{{ categoria.nombre|slugify  }}' role='tab' aria-controls='pills-home' aria-selected='true'>
                         {{ categoria.nombre }}
                     </a>
                 </li>
@@ -30,7 +30,7 @@
             <ul class="dropdown-menu nav-pills text-center" id='pills-tab' role='tablist'>
                 {% for categoria in categorias %}
                 <li>
-                    <a class='dropdown-item' data-toggle='pill' href='#{{ categoria.nombre }}'>
+                    <a class='dropdown-item' data-toggle='pill' href='#{{ categoria.nombre|slugify  }}'>
                         {{ categoria.nombre }}
                     </a>
                 </li>
@@ -41,7 +41,7 @@
 
     <div class="tab-content" id="pills-tabContent">
         {% for categoria in categorias %}
-        <div class='tab-pane {% if forloop.first %}show active{% endif %}' id='{{ categoria.nombre }}' role='tabpanel'>
+        <div class='tab-pane {% if forloop.first %}show active{% endif %}' id='{{ categoria.nombre|slugify  }}' role='tabpanel'>
             <div class='row'>
                 {% if categoria.platillo_set.exists %}
                 {% for platillo in categoria.platillo_set.all %}
@@ -51,7 +51,7 @@
                             width='500'>
                         <div class='card-body'>
                             <h1 class='text-center mb-4'>
-                                <a href='#{{ platillo.categoria.nombre }}' class='badge badge-primary'>$
+                                <a href='#{{ platillo.categoria.nombre|slugify }}' class='badge badge-primary'>$
                                     {{ platillo.precio }}</a>
                             </h1>
                             <h4 class='pt20 pb20'>{{ platillo.nombre }}</h4>
@@ -77,7 +77,7 @@
 
 
 <div class="container-fluid gallary row" id="gallary">
-    
+
     {% for imagen in galeria %}
     <div class='col-4 col-lg-2 gallary-item wow fadeIn'>
         <a data-bs-toggle='modal' data-bs-target='#{{ imagen.id }}'>
