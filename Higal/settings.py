@@ -76,12 +76,8 @@ WSGI_APPLICATION = 'Higal.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE'  : 'django.db.backends.mysql', # <-- UPDATED line 
-        'NAME'    : 'pagina_restaurante',                 # <-- UPDATED line 
-        'USER'    : 'esteban',                     # <-- UPDATED line
-        'PASSWORD': '@Database23',              # <-- UPDATED line
-        'HOST'    : 'localhost',                # <-- UPDATED line
-        'PORT'    : '3306',
+        'ENGINE': 'django.db.backends.sqlite3',  # Motor de la base de datos
+        'NAME': BASE_DIR / 'db.sqlite3',         # Ruta al archivo de la base de datos
     }
 }
 
